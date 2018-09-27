@@ -31,10 +31,23 @@ public class FilteringApples{
 		// [Apple{color='red', weight=120}]
 		List<Apple> redApples2 = filter(inventory, new ApplePredicate() {
 			public boolean test(Apple a){
-				return a.getColor().equals("red"); 
+				return a.getColor().equals("red");
 			}
 		});
 		System.out.println(redApples2);
+
+
+		List<Apple> red = filter(inventory, (Apple a) -> a.getColor().equals("red"));
+
+		inventory.sort(new Comparator<Apple>() {
+			@Override
+			public int compare(Apple o1, Apple o2) {
+				return o1.getWeight().compareTo(o2.getWeight());
+			}
+		});
+
+		inventory.sort(Comparator.comparing(Apple::getWeight));
+
 
 	}
 
