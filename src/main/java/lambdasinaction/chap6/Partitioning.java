@@ -8,7 +8,7 @@ import static lambdasinaction.chap6.Dish.menu;
 
 public class Partitioning {
 
-    public static void main(String ... args) {
+    public static void main(String... args) {
         System.out.println("Dishes partitioned by vegetarian: " + partitionByVegeterian());
         System.out.println("Vegetarian Dishes by type: " + vegetarianDishesByType());
         System.out.println("Most caloric dishes by vegetarian: " + mostCaloricPartitionedByVegetarian());
@@ -23,6 +23,10 @@ public class Partitioning {
     }
 
     private static Object mostCaloricPartitionedByVegetarian() {
+
+        Map<Boolean, Dish> collect = menu.stream().collect(partitioningBy(Dish::isVegetarian, collectingAndThen(maxBy(comparingInt(Dish::getCalories)), Optional::get)));
+        System.out.println(collect);
+
         return menu.stream().collect(
                 partitioningBy(Dish::isVegetarian,
                         collectingAndThen(

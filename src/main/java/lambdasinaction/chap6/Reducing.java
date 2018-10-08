@@ -1,15 +1,18 @@
 package lambdasinaction.chap6;
 
+import java.util.function.BiFunction;
+
 import static java.util.stream.Collectors.*;
 import static lambdasinaction.chap6.Dish.menu;
 
 public class Reducing {
 
-    public static void main(String ... args) {
+    public static void main(String... args) {
         System.out.println("Total calories in menu: " + calculateTotalCalories());
         System.out.println("Total calories in menu: " + calculateTotalCaloriesWithMethodReference());
         System.out.println("Total calories in menu: " + calculateTotalCaloriesWithoutCollectors());
         System.out.println("Total calories in menu: " + calculateTotalCaloriesUsingSum());
+        System.out.println("Total calories in menu: " + oldCount());
     }
 
     private static int calculateTotalCalories() {
@@ -26,5 +29,18 @@ public class Reducing {
 
     private static int calculateTotalCaloriesUsingSum() {
         return menu.stream().mapToInt(Dish::getCalories).sum();
+    }
+
+    private static int oldCount() {
+        menu.stream().map(Dish::getCalories).reduce(Integer::sum);
+        menu.stream().mapToInt(Dish::getCalories).sum();
+
+        menu.stream().collect(reducing(0, Dish::getCalories, Integer::sum));
+
+        int sum = 0;
+        for (Dish dish : menu) {
+            sum += dish.getCalories();
+        }
+        return sum;
     }
 }

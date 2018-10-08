@@ -13,8 +13,8 @@ public class Grouping {
     public static void main(String ... args) {
         System.out.println("Dishes grouped by type: " + groupDishesByType());
         System.out.println("Dish names grouped by type: " + groupDishNamesByType());
-        System.out.println("Dish tags grouped by type: " + groupDishTagsByType());
-        System.out.println("Caloric dishes grouped by type: " + groupCaloricDishesByType());
+//        System.out.println("Dish tags grouped by type: " + groupDishTagsByType());
+//        System.out.println("Caloric dishes grouped by type: " + groupCaloricDishesByType());
         System.out.println("Dishes grouped by caloric level: " + groupDishesByCaloricLevel());
         System.out.println("Dishes grouped by type and caloric level: " + groupDishedByTypeAndCaloricLevel());
         System.out.println("Count dishes in groups: " + countDishesInGroups());
@@ -32,14 +32,14 @@ public class Grouping {
         return menu.stream().collect(groupingBy(Dish::getType, mapping(Dish::getName, toList())));
     }
 
-    private static Map<Dish.Type, Set<String>> groupDishTagsByType() {
-        return menu.stream().collect(groupingBy(Dish::getType, flatMapping(dish -> dishTags.get( dish.getName() ).stream(), toSet())));
-    }
-
-    private static Map<Dish.Type, List<Dish>> groupCaloricDishesByType() {
+//    private static Map<Dish.Type, Set<String>> groupDishTagsByType() {
+//        return menu.stream().collect(groupingBy(Dish::getType, flatMapping(dish -> dishTags.get( dish.getName() ).stream(), toSet())));
+//    }
+//
+//    private static Map<Dish.Type, List<Dish>> groupCaloricDishesByType() {
 //        return menu.stream().filter(dish -> dish.getCalories() > 500).collect(groupingBy(Dish::getType));
-        return menu.stream().collect(groupingBy(Dish::getType, filtering(dish -> dish.getCalories() > 500, toList())));
-    }
+//        return menu.stream().collect(groupingBy(Dish::getType, filtering(dish -> dish.getCalories() > 500, toList())));
+//    }
 
     private static Map<CaloricLevel, List<Dish>> groupDishesByCaloricLevel() {
         return menu.stream().collect(
@@ -63,16 +63,22 @@ public class Grouping {
     }
 
     private static Map<Dish.Type, Long> countDishesInGroups() {
+        Map<Dish.Type, Long> collect = menu.stream().collect(groupingBy(Dish::getType, counting()));
         return menu.stream().collect(groupingBy(Dish::getType, counting()));
     }
 
     private static Map<Dish.Type, Optional<Dish>> mostCaloricDishesByType() {
+        menu.stream().collect(groupingBy(Dish::getType, reducing((d1, d2) -> d1.getCalories() > d2.getCalories() ? d1 : d2)));
+
+
         return menu.stream().collect(
                 groupingBy(Dish::getType,
                         reducing((Dish d1, Dish d2) -> d1.getCalories() > d2.getCalories() ? d1 : d2)));
     }
 
     private static Map<Dish.Type, Dish> mostCaloricDishesByTypeWithoutOprionals() {
+
+
         return menu.stream().collect(
                 groupingBy(Dish::getType,
                         collectingAndThen(
@@ -86,6 +92,8 @@ public class Grouping {
     }
 
     private static Map<Dish.Type, Set<CaloricLevel>> caloricLevelsByType() {
+
+
         return menu.stream().collect(
                 groupingBy(Dish::getType, mapping(
                         dish -> { if (dish.getCalories() <= 400) return CaloricLevel.DIET;
