@@ -11,7 +11,7 @@ public class PartitionPrimeNumbers {
 
     public static void main(String ... args) {
         System.out.println("Numbers partitioned in prime and non-prime: " + partitionPrimes(100));
-//        System.out.println("Numbers partitioned in prime and non-prime: " + partitionPrimesWithCustomCollector(100));
+        System.out.println("Numbers partitioned in prime and non-prime: " + partitionPrimesWithCustomCollector(100));
 
     }
 
@@ -31,12 +31,11 @@ public class PartitionPrimeNumbers {
     }
 
     public static boolean isPrime(List<Integer> primes, Integer candidate) {
-//        double candidateRoot = Math.sqrt((double) candidate);
-        //return takeWhile(primes, i -> i <= candidateRoot).stream().noneMatch(i -> candidate % i == 0);
+        double candidateRoot = Math.sqrt((double) candidate);
+        return takeWhile(primes, i -> i <= candidateRoot).stream().noneMatch(i -> candidate % i == 0);
 //        return primes.stream().takeWhile(i -> i <= candidateRoot).noneMatch(i -> candidate % i == 0);
-        return false;
+//        return false;
     }
-/*
     public static <A> List<A> takeWhile(List<A> list, Predicate<A> p) {
         int i = 0;
         for (A item : list) {
@@ -47,16 +46,26 @@ public class PartitionPrimeNumbers {
         }
         return list;
     }
-*/
+
     public static class PrimeNumbersCollector
             implements Collector<Integer, Map<Boolean, List<Integer>>, Map<Boolean, List<Integer>>> {
 
         @Override
         public Supplier<Map<Boolean, List<Integer>>> supplier() {
-            return () -> new HashMap<Boolean, List<Integer>>() {{
-                put(true, new ArrayList<Integer>());
-                put(false, new ArrayList<Integer>());
-            }};
+        	return () ->
+				new HashMap<Boolean, List<Integer>>() {{
+					put(true,new ArrayList());
+				}
+				};
+
+
+//				booleanListHashMap.put(true,new ArrayList<>());
+//				booleanListHashMap.put(false, new ArrayList<>());
+//				return booleanListHashMap;
+//			} return () -> new HashMap<Boolean, List<Integer>>() {{
+//                put(true, new ArrayList<Integer>());
+//                put(false, new ArrayList<Integer>());
+//            }};
         }
 
         @Override
