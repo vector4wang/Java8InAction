@@ -54,7 +54,6 @@ public class OptionalMain {
         Stream.of("lamurudu", "Jack", "Oduduwa", "Jbulsu Abas")
                 .filter(startsWithJ.and(fourLetterLong.or(containsBig)))
                 .forEach((n) -> System.out.print("nName, which starts with 'J' and four letter long is : " + n));
-
     }
 
     public String getCarInsuranceName(Optional<Person> person) {
