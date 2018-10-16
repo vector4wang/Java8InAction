@@ -5,13 +5,9 @@ import static java.time.temporal.TemporalAdjusters.nextOrSame;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.time.DayOfWeek;
-import java.time.Duration;
-import java.time.Instant;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.LocalTime;
-import java.time.Month;
+import java.time.*;
+import java.time.chrono.ChronoLocalDate;
+import java.time.chrono.Chronology;
 import java.time.chrono.JapaneseDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeFormatterBuilder;
@@ -22,6 +18,7 @@ import java.time.temporal.TemporalAdjuster;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
+import java.util.TimeZone;
 
 public class DateTimeExamples {
 
@@ -33,9 +30,13 @@ public class DateTimeExamples {
 
     public static void main(String[] args) {
 //        useOldDate();
-        useLocalDate();
+//        useLocalDate();
 //        useTemporalAdjuster();
 //        useDateFormatter();
+
+
+//        fun121();
+        fun1222();
     }
 
     private static void useOldDate() {
@@ -157,5 +158,54 @@ public class DateTimeExamples {
 	private static void fun1211() {
 		LocalDate localDate = LocalDate.of(2014, 10, 15);
 	}
+
+    private static void fun121() {
+        LocalDate date = LocalDate.of(2014, 3, 18);
+        date = date.with(ChronoField.MONTH_OF_YEAR, 9);
+        date = date.plusYears(2).minusDays(10);
+        date.withYear(2011);
+        System.out.println(date);
+    }
+
+    private static void fun122() {
+        LocalDate date = LocalDate.of(2018, 10, 16);
+        date.with(temporal -> {
+            DayOfWeek dow = DayOfWeek.of(temporal.get(ChronoField.DAY_OF_WEEK));
+            int dayToAdd = 1;
+            if (dow == DayOfWeek.FRIDAY) {
+                dayToAdd = 3;
+            } else if (dow == DayOfWeek.SATURDAY) {
+                dayToAdd = 2;
+            }
+            return temporal.plus(dayToAdd, ChronoUnit.DAYS);
+        });
+    }
+
+    private static void fun1222() {
+        LocalDate date = LocalDate.of(2014, 10, 16);
+        String format = date.format(DateTimeFormatter.BASIC_ISO_DATE);
+        String format1 = date.format(DateTimeFormatter.ISO_LOCAL_DATE);
+        System.out.println(format+"|"+format1);
+
+        LocalDate date1 = LocalDate.parse("20141016", DateTimeFormatter.BASIC_ISO_DATE);
+        LocalDate date2 = LocalDate.parse("2014-10-16", DateTimeFormatter.ISO_LOCAL_DATE);
+
+    }
+
+    private static void fun123() {
+        ZoneId romeZone = ZoneId.of("Europe/Rome");
+        ZoneId zoneId = TimeZone.getDefault().toZoneId();
+
+        LocalDate date = LocalDate.of(2014, Month.MARCH, 18);
+        ZonedDateTime zonedDateTime = date.atStartOfDay(zoneId);
+    }
+
+    private static void fun1231() {
+        ZoneOffset newYrokOffset = ZoneOffset.of("-05:00");
+        Chronology japaneseChronology = Chronology.ofLocale(Locale.JAPAN);
+        ChronoLocalDate now = japaneseChronology.dateNow();
+
+    }
+
 
 }
