@@ -22,4 +22,9 @@ public class Discount {
         delay();
         return format(price * (100 - code.percentage) / 100);
     }
+
+
+	public static void main(String[] args) {
+
+	}
 }

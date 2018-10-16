@@ -32,10 +32,10 @@ public class DateTimeExamples {
     };
 
     public static void main(String[] args) {
-        useOldDate();
+//        useOldDate();
         useLocalDate();
-        useTemporalAdjuster();
-        useDateFormatter();
+//        useTemporalAdjuster();
+//        useDateFormatter();
     }
 
     private static void useOldDate() {
@@ -153,5 +153,9 @@ public class DateTimeExamples {
 
         System.out.println(date.format(complexFormatter));
     }
+
+	private static void fun1211() {
+		LocalDate localDate = LocalDate.of(2014, 10, 15);
+	}
 
 }

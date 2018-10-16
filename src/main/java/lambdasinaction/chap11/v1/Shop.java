@@ -38,4 +38,11 @@ public class Shop {
         return name;
     }
 
+
+	public static void main(String[] args) {
+//		System.out.println(new Shop("yonwang").getPrice("apple"));
+		System.out.println(new Shop("yongwang").getPriceAsync("origin"));
+
+	}
+
 }
