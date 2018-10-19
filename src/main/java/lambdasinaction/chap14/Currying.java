@@ -22,6 +22,11 @@ public class Currying {
         return x * y + z;
     }
 
+
+    static DoubleUnaryOperator curriedConverter2(double f, double b) {
+        return operand -> operand * f + b;
+    }
+
     static DoubleUnaryOperator curriedConverter(double y, double z) {
         return (double x) -> x * y + z;
     }
